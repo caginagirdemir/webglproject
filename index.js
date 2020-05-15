@@ -1,89 +1,71 @@
-const map = new harp.MapView({
-    canvas: document.getElementById("map"),
-    theme:
-        "https://unpkg.com/@here/harp-map-theme@latest/resources/berlin_tilezen_night_reduced.json"
-});
-const controls = new harp.MapControls(map);
+export namespace HelloWorldExample {
+    // Create a new MapView for the HTMLCanvasElement of the given id.
+    function initializeMapView(id: string): MapView {
+        // snippet:harp_gl_hello_world_example_0.ts
+        const canvas = document.getElementById(id) as HTMLCanvasElement;
+        // end:harp_gl_hello_world_example_0.ts
 
-
-
-/*
- * Copyright (C) 2017-2020 HERE Europe B.V.
- * Licensed under Apache 2.0, see full license in LICENSE
- * SPDX-License-Identifier: Apache-2.0
- */
-
-import { GeoCoordinates } from "@here/harp-geoutils";
-import { MapControls, MapControlsUI } from "@here/harp-map-controls";
-import { CopyrightElementHandler, MapView, ThemeLoader } from "@here/harp-mapview";
-import { APIFormat, AuthenticationMethod, OmvDataSource } from "@here/harp-omv-datasource";
-import { GUI } from "dat.gui";
-import { apikey, copyrightInfo } from "../config";
-
-/**
- * This example copies the base example and adds a GUI allowing to switch between all the open-
- * sourced themes available in the repository.
- */
-export namespace ThemesExample {
-    function initializeMapView(): MapView {
-        const canvas = document.getElementById("mapCanvas") as HTMLCanvasElement;
+        // snippet:harp_gl_hello_world_example_1.ts
+        // Look at New York.
+        const NY = new GeoCoordinates(40.707, -74.01);
         const map = new MapView({
             canvas,
-            theme: "resources/berlin_tilezen_base.json"
+            theme: "resources/berlin_tilezen_base.json",
+            target: NY,
+            tilt: 50,
+            heading: -20,
+            zoomLevel: 16.1
         });
+        // end:harp_gl_hello_world_example_1.ts
 
         CopyrightElementHandler.install("copyrightNotice", map);
 
+        // snippet:harp_gl_hello_world_example_map_controls.ts
+        // Instantiate the default map controls, allowing the user to pan around freely.
         const mapControls = new MapControls(map);
         mapControls.maxTiltAngle = 50;
+        // end:harp_gl_hello_world_example_map_controls.ts
 
-        const moscow = new GeoCoordinates(55.7525631, 37.6234006);
-        map.lookAt({ target: moscow, zoomLevel: 16.1, tilt: 50, heading: 300 });
-        map.zoomLevel = 16.1;
-
-        const ui = new MapControlsUI(mapControls, { zoomLevel: "input", projectionSwitch: true });
+        // Add an UI.
+        const ui = new MapControlsUI(mapControls, { zoomLevel: "input" });
         canvas.parentElement!.appendChild(ui.domElement);
 
+        // snippet:harp_gl_hello_world_example_3.ts
+        // Resize the mapView to maximum.
         map.resize(window.innerWidth, window.innerHeight);
 
+        // React on resize events.
         window.addEventListener("resize", () => {
             map.resize(window.innerWidth, window.innerHeight);
         });
+        // end:harp_gl_hello_world_example_3.ts
+
+        addOmvDataSource(map);
 
         return map;
     }
 
-    const mapView = initializeMapView();
+    function addOmvDataSource(map: MapView) {
+        // snippet:harp_gl_hello_world_example_4.ts
+        const omvDataSource = new OmvDataSource({
+            baseUrl: "https://vector.hereapi.com/v2/vectortiles/base/mc",
+            apiFormat: APIFormat.XYZOMV,
+            styleSetName: "tilezen",
+            authenticationCode: "APFoVhTuQQecn3TG5mYaEgA",
+            authenticationMethod: {
+                method: AuthenticationMethod.QueryString,
+                name: "apikey"
+            },
+            copyrightInfo
+        });
+        // end:harp_gl_hello_world_example_4.ts
 
-    const omvDataSource = new OmvDataSource({
-        baseUrl: "https://vector.hereapi.com/v2/vectortiles/base/mc",
-        apiFormat: APIFormat.XYZOMV,
-        styleSetName: "tilezen",
-        authenticationCode: "APFoVhTuQQecn3TG5mYaEgA",
-        authenticationMethod: {
-            method: AuthenticationMethod.QueryString,
-            name: "apikey"
-        },
-        copyrightInfo
-    });
+        // snippet:harp_gl_hello_world_example_5.ts
+        map.addDataSource(omvDataSource);
+        // end:harp_gl_hello_world_example_5.ts
 
-    mapView.addDataSource(omvDataSource);
+        return map;
+    }
 
-    const gui = new GUI({ width: 300 });
-    const options = {
-        theme: {
-            day: "resources/berlin_tilezen_base.json",
-            reducedDay: "resources/berlin_tilezen_day_reduced.json",
-            reducedNight: "resources/berlin_tilezen_night_reduced.json",
-            streets: "resources/berlin_tilezen_effects_streets.json",
-            outlines: "resources/berlin_tilezen_effects_outlines.json"
-        }
-    };
-    gui.add(options, "theme", options.theme)
-        .onChange((value: string) => {
-            ThemeLoader.load(value).then(theme => {
-                mapView.theme = theme;
-            });
-        })
-        .setValue("resources/berlin_tilezen_base.json");
+    export const mapView = initializeMapView("mapCanvas");
 }
