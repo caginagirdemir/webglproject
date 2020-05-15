@@ -1,71 +1,56 @@
-/*
- * Copyright (C) 2017-2020 HERE Europe B.V.
- * Licensed under Apache 2.0, see full license in LICENSE
- * SPDX-License-Identifier: Apache-2.0
- */
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta
+            name="viewport"
+            content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"
+        />
+        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+        <title><%= htmlWebpackPlugin.options.title %></title>
+        <link
+            href="https://fonts.googleapis.com/css?family=Fira+Sans:400,500,600&amp;display=swap"
+            rel="stylesheet"
+        />
+        <style>
+            body {
+                background: #fff;
+                padding: 0;
+                margin: 0;
+                font-weight: bold;
+                overflow: hidden;
+                font-family: "Fira Sans", sans-serif;
+                text-align: center;
+            }
 
-import { MapControls, MapControlsUI } from "@here/harp-map-controls";
-import { CopyrightElementHandler, MapView } from "@here/harp-mapview";
-import { WebTileDataSource } from "@here/harp-webtile-datasource";
-import { APFoVhTuQQecn3TG5mYaEgA } from "../config";
+            #mapCanvas {
+                position: absolute;
+                border: 0px;
+                left: 0px;
+                width: 100%;
+                height: 100%;
+                overflow: hidden;
+                z-index: -1;
+            }
 
-// tslint:disable:max-line-length
-/**
- * A simple example using the webtile data source. Tiles are retrieved from
- * ```
- * https://1.base.maps.ls.hereapi.com/maptile/2.1/maptile/newest/normal.day/${level}/${column}/${row}/512/png8?apikey=${apikey}
- * ```
- *
- * A [[WebTileDataSource]] is created with specified applications' apikey passed
- * as [[WebTileDataSourceOptions]]
- * ```typescript
- * [[include:harp_gl_datasource_webtile_1.ts]]
- * ```
- * Then added to the [[MapView]]
- * ```typescript
- * [[include:harp_gl_datasource_webtile_2.ts]]
- * ```
- */
-export namespace WebTileDataSourceExample {
-    // creates a new MapView for the HTMLCanvasElement of the given id
-    export function initializeMapView(id: string): MapView {
-        const canvas = document.getElementById(id) as HTMLCanvasElement;
+            #copyrightNotice {
+                position: absolute;
+                right: 0;
+                bottom: 0;
+                background-color: #f0fef1;
+                z-index: 100;
+                padding: 2px 5px;
+                font-family: sans-serif;
+                font-size: 0.8em;
+                font-weight: normal;
+            }
+        </style>
+    </head>
 
-        const map = new MapView({
-            canvas,
-            theme: "resources/berlin_tilezen_base_globe.json"
-        });
-
-        // instantiate the default map controls, allowing the user to pan around freely.
-        const controls = new MapControls(map);
-
-        // Add an UI.
-        const ui = new MapControlsUI(controls, { zoomLevel: "input", projectionSwitch: true });
-        canvas.parentElement!.appendChild(ui.domElement);
-
-        CopyrightElementHandler.install("copyrightNotice", map);
-
-        // resize the mapView to maximum
-        map.resize(window.innerWidth, window.innerHeight);
-
-        // react on resize events
-        window.addEventListener("resize", () => {
-            map.resize(window.innerWidth, window.innerHeight);
-        });
-
-        return map;
-    }
-
-    const mapView = initializeMapView("mapCanvas");
-
-    // snippet:harp_gl_datasource_webtile_1.ts
-    const webTileDataSource = new WebTileDataSource({
-        apikey,
-        ppi: WebTileDataSource.ppiValue.ppi320
-    });
-    // end:harp_gl_datasource_webtile_1.ts
-
-    // snippet:harp_gl_datasource_webtile_2.ts
-    mapView.addDataSource(webTileDataSource);
-    // end:harp_gl_datasource_webtile_2.ts
-}
+    <body>
+        <script src="three.min.js"></script>
+        <canvas id="mapCanvas"></canvas>
+        <div id="app"></div>
+        <div id="copyrightNotice"></div>
+    </body>
+</html>
