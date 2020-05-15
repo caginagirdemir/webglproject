@@ -44,73 +44,24 @@
         <canvas id="mapCanvas"></canvas>
         <div id="app"></div>
         <div id="copyrightNotice"></div>
-
-        <!--
-            These paths are to be used by clients, when using map bundle from CDN.
-        -->
-        <!--
-            <script src="https://unpkg.com/three/build/three.min.js"></script>
-            <script src="https://unpkg.com/@here/harp.gl/dist/harp.js"></script>
-        -->
-        <!--
-            These paths are used here to be compatible with harp.gl CI.
-        -->
-        <script src="credentials.js"></script>
-        <script src="three.min.js"></script>
-        <script src="harp.js"></script>
-
         <script>
             const canvas = document.getElementById("mapCanvas");
 
-            // Look at New York.
-            const NY = new harp.GeoCoordinates(40.707, -74.01);
             const map = new harp.MapView({
                 canvas,
-                // This, is relative URL only to make example work in CI environment.
-                // Clients, may use CDN url like:
-                //   https://unpkg.com/@here/harp-map-theme/resources/berlin_tilezen_base.json
-                theme: "resources/berlin_tilezen_base.json",
-                target: NY,
-                tilt: 50,
-                heading: -20,
-                zoomLevel: 16.1
+                theme: "https://unpkg.com/@here/harp-map-theme@latest/resources/berlin_tilezen_day_reduced.json"
             });
-
-            harp.CopyrightElementHandler.install("copyrightNotice", map);
-
-            const mapControls = new harp.MapControls(map);
-            mapControls.maxTiltAngle = 50;
-
-            const ui = new harp.MapControlsUI(mapControls, { zoomLevel: "input" });
-            canvas.parentElement.appendChild(ui.domElement);
-
-            map.resize(window.innerWidth, window.innerHeight);
-
-            window.addEventListener("resize", () => {
-                map.resize(window.innerWidth, window.innerHeight);
-            });
-
-            const hereCopyrightInfo = {
-                id: "here.com",
-                year: new Date().getFullYear(),
-                label: "HERE",
-                link: "https://legal.here.com/terms"
-            };
-            const copyrights = [hereCopyrightInfo];
-
             const omvDataSource = new harp.OmvDataSource({
                 baseUrl: "https://vector.hereapi.com/v2/vectortiles/base/mc",
-                apiFormat: harp.APIFormat.XYZOMV,
+                apiFormat: harp.APIFormat.HereV1,
                 styleSetName: "tilezen",
+                maxZoomLevel: 17,
+                authenticationMethod: AuthenticationTypeBearer,
                 authenticationCode: "AJtaJhfyQeud_4lkN-3MRAA",
-                authenticationMethod: {
-                    method: harp.AuthenticationMethod.QueryString,
-                    name: "apikey"
-                },
-                copyrightInfo: copyrights
+                copyrightInfo: copyrights,
             });
-
             map.addDataSource(omvDataSource);
         </script>
     </body>
+
 </html>
