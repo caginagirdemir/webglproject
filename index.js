@@ -51,7 +51,7 @@ export namespace HelloWorldExample {
             baseUrl: "https://vector.hereapi.com/v2/vectortiles/base/mc",
             apiFormat: APIFormat.XYZOMV,
             styleSetName: "tilezen",
-            authenticationCode: "APFoVhTuQQecn3TG5mYaEgA",
+            authenticationCode: "Ad4fCHddQkypCAf0qmFrAAA",
             authenticationMethod: {
                 method: AuthenticationMethod.QueryString,
                 name: "apikey"
