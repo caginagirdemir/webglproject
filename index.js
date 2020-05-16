@@ -1,14 +1,40 @@
-const map = new harp.MapView({
-   canvas: document.getElementById("map"),
-   theme: "https://unpkg.com/@here/harp-map-theme@latest/resources/berlin_tilezen_night_reduced.json",
-   target: new harp.GeoCoordinates(37.773972, -122.431297), //San Francisco,
-   zoomLevel: 13
+import { MapView } from "@here/harp-mapview";
+
+const mapCanvas = document.getElementById("mapCanvas");
+const mapView = new MapView({
+    canvas: mapCanvas,
+    theme: "node_modules/@here/harp-map-theme/resources/berlin_tilezen_base.json",
+    // note, this URL may vary depending on configuration of webpack
+    // for this example, it is assumed that app is server from project root
+    decoderUrl: "harp-gl-decoders.bundle.js"
+    // note, this URL may vary depending on configuration of webpack
+    // for this example, it is assumed that webpack emits bundles to project root
 });
-const controls = new harp.MapControls(map);
 
-window.onresize = () => map.resize(window.innerWidth, window.innerHeight);
+// index.js
+import { MapView } from "@here/harp-mapview";
 
-const omvDataSource = new harp.OmvDataSource({
+const mapCanvas = document.getElementById("mapCanvas");
+const mapView = new MapView({
+    canvas: mapCanvas,
+    theme: "node_modules/@here/harp-map-theme/resources/berlin_tilezen_base.json",
+    // note, this URL may vary depending on configuration of webpack
+    // for this example, it is assumed that app is server from project root
+    decoderUrl: "harp-gl-decoders.bundle.js"
+    // note, this URL may vary depending on configuration of webpack
+    // for this example, it is assumed that webpack emits bundles to project root
+});
+// index.js
+import { GeoCoordinates } from "@here/harp-geoutils";
+
+// ...
+mapView.camera.position.set(0, 0, 800);
+mapView.geoCenter = new GeoCoordinates(40.70398928, -74.01319808, 0);
+mapView.resize(mapCanvas.clientWidth, mapCanvas.clientHeight);
+
+import { APIFormat, AuthenticationTypeMapboxV4, OmvDataSource } from "@here/harp-omv-datasource";
+
+const dataSource = new OmvDataSource({
    baseUrl: "https://vector.hereapi.com/v2/vectortiles/base/mc",
    apiFormat: harp.APIFormat.XYZOMV,
    styleSetName: "tilezen",
@@ -18,4 +44,4 @@ const omvDataSource = new harp.OmvDataSource({
          name: "apikey"
    }
 });
-map.addDataSource(omvDataSource);
+mapView.addDataSource(dataSource);
