@@ -17,7 +17,7 @@ const ui = new harp.MapControlsUI(mapControls);
 canvas.parentElement.appendChild(ui.domElement);
 
 mapControls.maxPitchAngle = 90;
-mapControls.setRotation(6.3, 50);
+//mapControls.setRotation(6.3, 50);
 
 map.resize(window.innerWidth, window.innerHeight);
 window.onresize = () => map.resize(window.innerWidth, window.innerHeight);
