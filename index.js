@@ -39,14 +39,14 @@ map.addDataSource(omvDataSource);
 // });
 // map.beginAnimation();
 
-fetch('wireless-hotspots.geojson')
+fetch('water_pollution.geojson')
 .then(data => data.json())
 .then(data => {
    console.log(data);
-   const geoJsonDataProvider = new harp.GeoJsonDataProvider("wireless-hotspots", data);
+   const geoJsonDataProvider = new harp.GeoJsonDataProvider("water_pollution", data);
    const geoJsonDataSource = new harp.OmvDataSource({
       dataProvider: geoJsonDataProvider,
-      name: "wireless-hotspots",
+      name: "water_pollution",
       //styleSetName: "wireless-hotspots" NOTE: Not necessary here. For use if you want to add your style rules in the external stylesheet.
    });
 
@@ -69,4 +69,126 @@ fetch('wireless-hotspots.geojson')
    */
 })
 
+
+fetch('plastic_wastes.geojson')
+.then(data => data.json())
+.then(data => {
+   console.log(data);
+   const geoJsonDataProvider = new harp.GeoJsonDataProvider("plastic_wastes", data);
+   const geoJsonDataSource = new harp.OmvDataSource({
+      dataProvider: geoJsonDataProvider,
+      name: "plastic_wastes",
+      //styleSetName: "wireless-hotspots" NOTE: Not necessary here. For use if you want to add your style rules in the external stylesheet.
+   });
+
+   map.addDataSource(geoJsonDataSource).then(() => {
+      const styles = [{
+         when: "$geometryType == 'point'",
+         technique: "circles",
+         renderOrder: 10000,
+         attr: {
+            color: "#FF0000",
+            size: 15
+         }
+      }]
+      geoJsonDataSource.setStyleSet(styles);
+      map.update();
+   });
+
+   /*
+      Code from next section goes here
+   */
+})
+
+fetch('air_pollution.geojson')
+.then(data => data.json())
+.then(data => {
+   console.log(data);
+   const geoJsonDataProvider = new harp.GeoJsonDataProvider("air_pollution", data);
+   const geoJsonDataSource = new harp.OmvDataSource({
+      dataProvider: geoJsonDataProvider,
+      name: "air_pollution",
+      //styleSetName: "wireless-hotspots" NOTE: Not necessary here. For use if you want to add your style rules in the external stylesheet.
+   });
+
+   map.addDataSource(geoJsonDataSource).then(() => {
+      const styles = [{
+         when: "$geometryType == 'point'",
+         technique: "circles",
+         renderOrder: 10000,
+         attr: {
+            color: "#3232ff",
+            size: 15
+         }
+      }]
+      geoJsonDataSource.setStyleSet(styles);
+      map.update();
+   });
+
+   /*
+      Code from next section goes here
+   */
+})
+
+
+fetch('noise_pollution.geojson')
+.then(data => data.json())
+.then(data => {
+   console.log(data);
+   const geoJsonDataProvider = new harp.GeoJsonDataProvider("noise_pollution", data);
+   const geoJsonDataSource = new harp.OmvDataSource({
+      dataProvider: geoJsonDataProvider,
+      name: "noise_pollution",
+      //styleSetName: "wireless-hotspots" NOTE: Not necessary here. For use if you want to add your style rules in the external stylesheet.
+   });
+
+   map.addDataSource(geoJsonDataSource).then(() => {
+      const styles = [{
+         when: "$geometryType == 'point'",
+         technique: "circles",
+         renderOrder: 10000,
+         attr: {
+            color: "#FF00FF",
+            size: 15
+         }
+      }]
+      geoJsonDataSource.setStyleSet(styles);
+      map.update();
+   });
+
+   /*
+      Code from next section goes here
+   */
+})
+
+
+fetch('erosion.geojson')
+.then(data => data.json())
+.then(data => {
+   console.log(data);
+   const geoJsonDataProvider = new harp.GeoJsonDataProvider("erosion", data);
+   const geoJsonDataSource = new harp.OmvDataSource({
+      dataProvider: geoJsonDataProvider,
+      name: "erosion",
+      //styleSetName: "wireless-hotspots" NOTE: Not necessary here. For use if you want to add your style rules in the external stylesheet.
+   });
+
+   map.addDataSource(geoJsonDataSource).then(() => {
+      const styles = [{
+         when: "$geometryType == 'point'",
+         technique: "circles",
+         renderOrder: 10000,
+         attr: {
+            color: "#463214",
+            size: 15
+         }
+      }]
+      geoJsonDataSource.setStyleSet(styles);
+      map.update();
+   });
+
+   /*
+      Code from next section goes here
+   */
+})
 

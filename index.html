@@ -1,15 +1,44 @@
 <html>
    <head>
-      <style>
-         body, html { border: 0; margin: 0; padding: 0}
-         #map { height: 100vh; width: 100vw; }
-      </style>
+      <link rel="stylesheet" type="text/css" href="index.css">
       <script src="https://unpkg.com/three/build/three.min.js"></script>
       <script src="https://unpkg.com/@here/harp.gl/dist/harp.js"></script>
       <script src="extras.js"></script>
    </head>
    <body>
-      <canvas id="map"></div>
+      <div id="sidebar">
+
+         <div class="group">
+            <h1>CM715 WebGL Assignment</h1>
+            <div class="desc">
+               Environmental problems in Turkey.
+            </div>      
+         </div>
+
+         <div class="group">
+            <h2>Indicator</h2>
+            <h3>🔴<div class="desc">Plastic Wastes</div></h3>
+            <h3>🔵<div class="desc">Air Pollution</div></h3>
+            <h3>🟢<div class="desc">Water Pollution</div></h3>
+            <h3>🟣<div class="desc">Sound Pollution</div></h3>
+            <h3>🟤<div class="desc">Erosion</div></h3>
+         </div>
+
+         <div class="group">
+            <h2>Map View</h2>
+            <div class="selector-outside">
+               <div class="selector-option left-selector left-selector-active">Static</div>
+               <div class="selector-option right-selector">Rotating</div>
+            </div>
+            <div class="desc">Choose between a static view or rotating 3D view.</div>
+         </div>
+
+      </div>
+      <div id="tooltip">
+         <div class="city"></div>
+         <div class="count"></div>
+      </div>
+      <canvas id="map"></canvas>
       <script src="index.js"></script>
    </body>
 </html>
